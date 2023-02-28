@@ -15,6 +15,7 @@ You belong to a team whose main goal is to deploy a publicly accessible web appl
   - Identify ARN Admin Role that we will use to run our scripts in Terraform
   - Identify VPC ID, Subnets IDs (Only Private), CIDR of our Private Subnets, Route Table ID of our Private Subnets
   - IAM Role with Admin Access (IAM Role for running our Terraform)
+  - Create EC2 with Admin Role to run terraform and validate that you have connection with VPC and Subnets where your EKS Cluster will run
 
 ## Least Privileges
 
@@ -33,7 +34,7 @@ aws codecommit create-repository --repository-name Funcionario --repository-desc
 aws codecommit create-repository --repository-name IaC --repository-description "Infrastructure as Code" 
 ```
 
-#### 2) Clone Repositories, Save our project /infrastructure-as-code and /funcionario-app into  Funcionario and IaC Repositories, Push our code to Codecommit
+#### 2) Clone Repositories
 
 ```terraform
 git clone codecommit://Funcionario Funcionario
@@ -46,28 +47,17 @@ git clone codecommit://IaC IaC
 **NOTA**: Remember use unique s3 bucket name.
 
 ```terraform
-aws s3api create-bucket \
-    --bucket terraform-iac-state-v1 \
-    --region us-east-1
+aws s3api create-bucket --bucket terraform-iac-state-v1 --region us-east-1
 ```
 
 #### 3) Create SSM Parameters to use in our Codepipeline
 
 ```terraform
-aws ssm put-parameter \
-    --name "account_id" \
-    --value "your-account-number" \
-    --type String 
+aws ssm put-parameter --name "account_id" --value "your-account-number" --type String 
 
-aws ssm put-parameter \
-    --name "eks_cluster" \
-    --value "funcionario-eks" \ 
-    --type String 
+aws ssm put-parameter --name "eks_cluster" --value "funcionario-eks" --type String 
 
-aws ssm put-parameter \
-    --name "image_tag" \
-    --value "latest" \ 
-    --type String 
+aws ssm put-parameter --name "image_tag" --value "latest" --type String 
 ```
 #### 4) Configure backend.tf, locals.tf and terraform.tfvars for specify own configuration
 #### 5) Run Terraform in the following order:
@@ -112,7 +102,7 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 
 ```
 
-#### 5) After creation of infrastructure resources, we will wait for codepipeline and the deployment.
+#### 5) After creation of infrastructure resources, copy ./infrastructure-as-code/* into IaC and copy ./funcionario-app/* into Funcionario, add changes + commit + push.
 **Application Structure Folders:**
 - *k8s/* for Kubernetes Resources <--- Important change the AWS Account Number on the manifests
 - *consumer/* for consumer application
@@ -120,17 +110,20 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 - *buildspec-build.yml* Codebuild - Build Step
 - *buildspec-deploy.yml* Codebuild - Deploy Step
 
+#### 6) Check Codepipeline and deploy on EKS Cluster
+#### 7) On EKS Cluster run the following commands to access the services:
+```terraform
+kubectl get services -o wide -n kafka
+```
+
 # Clean Up
 ```terraform
 NOTE: please delete the ECR Imagen Manually (this feature is coming soon)
 
 1) terraform destroy
-2) aws ssm delete-parameter \
-    --name "account_id" 
-3) aws ssm delete-parameter \
-    --name "eks_cluster" 
-4) aws ssm delete-parameter \
-    --name "image_tag" 
+2) aws ssm delete-parameter --name "account_id" 
+3) aws ssm delete-parameter --name "eks_cluster" 
+4) aws ssm delete-parameter --name "image_tag" 
 5) aws codecommit delete-repository --repository-name Funcionario
 6) aws codecommit delete-repository --repository-name IaC
 7) aws s3 rb s3://terraform-iac-state-v1 --force  
