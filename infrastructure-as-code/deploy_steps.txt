@@ -1,0 +1,22 @@
+Create Resources
+
+1) terraform init
+2) terraform plan
+3) terraform validate
+4) terraform apply -target=module.eks_cluster_role 
+5) terraform apply -target=module.eks_node_role
+6) terraform apply -target=module.eks_vpc_endpoints
+7) terraform apply -target=module.eks_cluster
+8) terraform apply -target=module.codepipeline
+9) terraform apply -target=module.consumer
+10) terraform apply -target=module.publisher
+
+Clean up
+
+1) terraform destroy -target=module.consumer
+2) terraform destroy -target=module.publisher
+3) terraform destroy -target=module.codepipeline
+4) terraform destroy -target=module.eks_cluster
+5) terraform destroy -target=module.eks_vpc_endpoints
+6) terraform destroy -target=module.eks_node_role
+7) terraform destroy -target=module.eks_cluster_role 

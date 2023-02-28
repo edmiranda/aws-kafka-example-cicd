@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafdrop
+  namespace: kafka
+  labels:
+    app: kafdrop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafdrop
+  template:
+    metadata:
+      labels:
+        app: kafdrop
+    spec:
+      containers:
+      - name: kafdrop
+        image: obsidiandynamics/kafdrop:3.27.0
+        env: 
+        - name: KAFKA_BROKERCONNECT 
+          value: "my-cluster-kafka-bootstrap:9092"
+        ports:
+        - containerPort: 9000
+          protocol: TCP

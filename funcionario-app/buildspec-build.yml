@@ -1,0 +1,33 @@
+version: 0.2
+env:
+  parameter-store:
+    AWS_ACCOUNT_ID: "account_id"
+    IMAGE_TAG     : "image_tag"
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+
+  pre_build:
+    commands:
+      - pip3 install awscli --upgrade --user
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+    
+  build:
+    commands:
+      - cd consumer
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t funcionario-consumer:$IMAGE_TAG .
+      - docker tag funcionario-consumer:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/funcionario-consumer:$IMAGE_TAG 
+      - cd ../publisher
+      - docker build -t funcionario-publisher:$IMAGE_TAG .
+      - docker tag funcionario-publisher:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/funcionario-publisher:$IMAGE_TAG 
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/funcionario-consumer:$IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/funcionario-publisher:$IMAGE_TAG

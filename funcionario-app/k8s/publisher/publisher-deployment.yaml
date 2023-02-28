@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publisher
+  namespace: kafka
+  labels:
+    app: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template:
+    metadata:
+      labels:
+        app: publisher
+    spec:
+      containers:
+      - name: publisher
+        image: xxxxxxxx.dkr.ecr.us-east-1.amazonaws.com/funcionario-publisher:latest
+        env: 
+        - name: KAFKA_TOPIC_NAME 
+          value: "topic_test" 
+        - name: KAFKA_SERVER 
+          value: "my-cluster-kafka-bootstrap"
+        - name: KAFKA_PORT 
+          value: "9092"
+        ports:
+        - containerPort: 8000
+          protocol: TCP

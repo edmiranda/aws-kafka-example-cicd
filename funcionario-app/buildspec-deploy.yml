@@ -1,0 +1,21 @@
+version: 0.2
+env:
+  parameter-store:
+    EKS_CLUSTER: "eks_cluster"
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip3 install awscli --upgrade --user
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.0/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl
+      - mv -f ./kubectl /usr/local/bin/kubectl
+  pre_build:
+    commands:
+      - aws eks update-kubeconfig --name $EKS_CLUSTER
+  build:
+    commands:
+      - kubectl apply -f k8s/publisher/.  
+      - kubectl apply -f k8s/consumer/. 
+      - kubectl apply -f k8s/kafdrop/. 
