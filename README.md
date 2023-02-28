@@ -51,7 +51,7 @@ git clone codecommit://IaC IaC
 aws s3api create-bucket --bucket terraform-iac-state-v1 --region us-east-1
 ```
 
-#### 3) Create SSM Parameters to use in our Codepipeline
+#### 4) Create SSM Parameters to use in our Codepipeline
 
 ```terraform
 aws ssm put-parameter --name "account_id" --value "your-account-number" --type String 
@@ -60,9 +60,9 @@ aws ssm put-parameter --name "eks_cluster" --value "funcionario-eks" --type Stri
 
 aws ssm put-parameter --name "image_tag" --value "latest" --type String 
 ```
-#### 4) Configure backend.tf, locals.tf and terraform.tfvars for specify own configuration
+#### 5) Configure backend.tf, locals.tf and terraform.tfvars for specify own configuration
 
-#### 5) Run Terraform in the following order:
+#### 6) Run Terraform in the following order:
 ```bash
 
 1) cd IaC
@@ -80,12 +80,12 @@ aws ssm put-parameter --name "image_tag" --value "latest" --type String
 13) terraform apply -target=module.publisher
 ```
 
-#### 6) Authentication to the EKS Cluster
+#### 7) Authentication to the EKS Cluster
 ```terraform
 aws eks --region us-east-1 update-kubeconfig --name funcionario-eks
 ```
 
-#### 7) Deploy Kafka
+#### 8) Deploy Kafka
 ```terraform
 kubectl create namespace kafka
 
@@ -100,7 +100,7 @@ kubectl apply -f https://strimzi.io/examples/latest/kafka/kafka-persistent-singl
 kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka 
 
 ```
-#### 7) Test Kafka
+#### 9) Test Kafka
 ```terraform
 kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.33.2-kafka-3.4.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic my-topic
 
@@ -108,7 +108,7 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 
 ```
 
-#### 5) After creation of infrastructure resources, We will prepare Funcionario application.
+#### 10) After creation of infrastructure resources, We will prepare Funcionario application.
 **Application Structure Folders:**
 - *k8s/* for Kubernetes Resources <--- Important change the AWS Account Number on the manifests
 - *consumer/* for consumer application
@@ -125,15 +125,15 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 5) git push origin master
 ```
 
-#### 6) Check Codepipeline 
+#### 11) Check Codepipeline 
 ![alt text](images/application.png)
 ![alt text](images/service.png)
 
-#### 7) On EKS Cluster run the following commands to access the services:
+#### 12) On EKS Cluster run the following commands to access the services:
 ```terraform
 kubectl get services -o wide -n kafka
 ```
-#### 8) Check Application
+#### 13) Check Application
 ![alt text](images/service.png)
 
 
