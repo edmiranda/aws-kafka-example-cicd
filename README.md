@@ -124,13 +124,7 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 ```terraform
 NOTE: please delete the ECR Imagen Manually (this feature is coming soon)
 
-1) terraform destroy -target=module.consumer
-2) terraform destroy -target=module.publisher
-3) terraform destroy -target=module.codepipeline
-4) terraform destroy -target=module.eks_cluster
-5) terraform destroy -target=module.eks_vpc_endpoints
-6) terraform destroy -target=module.eks_node_role
-7) terraform destroy -target=module.eks_cluster_role
+1) terraform destroy
 8) aws ssm delete-parameter \
     --name "account_id" 
 9) aws ssm delete-parameter \
