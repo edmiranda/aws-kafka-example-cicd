@@ -62,7 +62,7 @@ aws ssm put-parameter --name "image_tag" --value "latest" --type String
 #### 4) Configure backend.tf, locals.tf and terraform.tfvars for specify own configuration
 
 #### 5) Run Terraform in the following order:
-```terraform
+```bash
 
 1) cd IaC
 2) cp -r ../funcionario/infrastructure-as-code/* .
