@@ -60,18 +60,23 @@ aws ssm put-parameter --name "eks_cluster" --value "funcionario-eks" --type Stri
 aws ssm put-parameter --name "image_tag" --value "latest" --type String 
 ```
 #### 4) Configure backend.tf, locals.tf and terraform.tfvars for specify own configuration
+
 #### 5) Run Terraform in the following order:
 ```terraform
-1) terraform init
-2) terraform plan
-3) terraform validate
-4) terraform apply -target=module.eks_cluster_role 
-5) terraform apply -target=module.eks_node_role
-6) terraform apply -target=module.eks_vpc_endpoints
-7) terraform apply -target=module.eks_cluster
-8) terraform apply -target=module.codepipeline
-9) terraform apply -target=module.consumer
-10) terraform apply -target=module.publisher
+
+1) cd IaC
+2) cp -r ../funcionario/infrastructure-as-code/* .
+3) cd test
+4) terraform init
+5) terraform plan
+6) terraform validate
+7) terraform apply -target=module.eks_cluster_role 
+8) terraform apply -target=module.eks_node_role
+9) terraform apply -target=module.eks_vpc_endpoints
+10) terraform apply -target=module.eks_cluster
+11) terraform apply -target=module.codepipeline
+12) terraform apply -target=module.consumer
+13) terraform apply -target=module.publisher
 ```
 
 #### 6) Authentication to the EKS Cluster
