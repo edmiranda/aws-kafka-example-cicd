@@ -122,6 +122,8 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 
 # Clean Up
 ```terraform
+NOTE: please delete the ECR Imagen Manually (this feature is coming soon)
+
 1) terraform destroy -target=module.consumer
 2) terraform destroy -target=module.publisher
 3) terraform destroy -target=module.codepipeline
