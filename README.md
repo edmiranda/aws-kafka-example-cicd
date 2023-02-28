@@ -124,12 +124,16 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 4) git commit -m "Initialize Funcionario Application"
 5) git push origin master
 ```
+
+#### 7) Check Codepipeline 
+![alt text](images/application.png)
+![alt text](images/service.png)
+
 #### 6) On EKS Cluster run the following commands to access the services:
 ```terraform
 kubectl get services -o wide -n kafka
 ```
-#### 7) Check Codepipeline and deploy on EKS Cluster
-![alt text](images/application.png)
+#### 7) Check Application
 ![alt text](images/service.png)
 
 
