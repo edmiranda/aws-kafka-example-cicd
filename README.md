@@ -16,6 +16,7 @@ You belong to a team whose main goal is to deploy a publicly accessible web appl
   - Identify VPC ID, Subnets IDs (Only Private), CIDR of our Private Subnets, Route Table ID of our Private Subnets
   - IAM Role with Admin Access (IAM Role for running our Terraform)
   - Create EC2 with Admin Role to run terraform and validate that you have connection with VPC and Subnets where your EKS Cluster will run
+  - kubectl installed in your ec2 machine or environment where you're running terraform
 
 ## Least Privileges
 
@@ -107,7 +108,7 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 
 ```
 
-#### 5) After creation of infrastructure resources, copy ./infrastructure-as-code/* into IaC and copy ./funcionario-app/* into Funcionario, add changes + commit + push.
+#### 5) After creation of infrastructure resources, We will prepare Funcionario application.
 **Application Structure Folders:**
 - *k8s/* for Kubernetes Resources <--- Important change the AWS Account Number on the manifests
 - *consumer/* for consumer application
@@ -115,11 +116,23 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 - *buildspec-build.yml* Codebuild - Build Step
 - *buildspec-deploy.yml* Codebuild - Deploy Step
 
-#### 6) Check Codepipeline and deploy on EKS Cluster
-#### 7) On EKS Cluster run the following commands to access the services:
+```bash
+
+1) cd ../../Funcionario
+2) cp -r ../funcionario/funcionario-app/* .
+3) git add .
+4) git commit -m "Initialize Funcionario Application"
+5) git push origin master
+```
+#### 6) On EKS Cluster run the following commands to access the services:
 ```terraform
 kubectl get services -o wide -n kafka
 ```
+#### 7) Check Codepipeline and deploy on EKS Cluster
+![alt text](images/application.png)
+![alt text](images/service.png)
+
+
 
 # Clean Up
 ```terraform
