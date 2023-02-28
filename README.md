@@ -113,6 +113,16 @@ kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 
 kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kafka-3.4.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic my-topic --from-beginning
 
+Results:
+Admin:~ $ kubectl -n kafka run kafka-producer -ti --image=quay.io/strimzi/kafka:0.33.2-kafka-3.4.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic my-topic
+If you don't see a command prompt, try pressing enter.
+>Hola a todos
+[2023-02-28 22:54:13,383] WARN [Producer clientId=console-producer] Error while fetching metadata with correlation id 4 : {my-topic=LEADER_NOT_AVAILABLE} (org.apache.kafka.clients.NetworkClient)
+>^C^CAdmin:~ $ ^C
+Admin:~ $ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kafka-3.4.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic my-topic --from-beginning
+If you don't see a command prompt, try pressing enter.
+Hola a todos
+
 ```
 
 #### 10) After creation of infrastructure resources, We will prepare Funcionario application.
@@ -133,14 +143,36 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 ```
 
 #### 11) Check Codepipeline 
-![alt text](images/application.png)
-![alt text](images/service.png)
+![alt text](images/codepipeline1.png)
+![alt text](images/codepipeline2.png)
 
 #### 12) On EKS Cluster run the following commands to access the services:
 ```terraform
-kubectl get services -o wide -n kafka
+Admin:~ $ kubectl get services -o wide -n kafka
+NAME                          TYPE           CLUSTER-IP       EXTERNAL-IP                                                               PORT(S)                               AGE    SELECTOR
+consumer                      LoadBalancer   172.20.161.6     acbef0f6decb44be592e04c881f1cfc1-1900647330.us-east-1.elb.amazonaws.com   80:31331/TCP                          4m7s   app=consumer
+kafdrop                       LoadBalancer   172.20.184.81    a9c8beb6b32474513a59443156247922-457613855.us-east-1.elb.amazonaws.com    80:31846/TCP                          4m6s   app=kafdrop
+my-cluster-kafka-bootstrap    ClusterIP      172.20.245.217   <none>                                                                    9091/TCP,9092/TCP,9093/TCP            15m    strimzi.io/cluster=my-cluster,strimzi.io/kind=Kafka,strimzi.io/name=my-cluster-kafka
+my-cluster-kafka-brokers      ClusterIP      None             <none>                                                                    9090/TCP,9091/TCP,9092/TCP,9093/TCP   15m    strimzi.io/cluster=my-cluster,strimzi.io/kind=Kafka,strimzi.io/name=my-cluster-kafka
+my-cluster-zookeeper-client   ClusterIP      172.20.117.121   <none>                                                                    2181/TCP                              16m    strimzi.io/cluster=my-cluster,strimzi.io/kind=Kafka,strimzi.io/name=my-cluster-zookeeper
+my-cluster-zookeeper-nodes    ClusterIP      None             <none>                                                                    2181/TCP,2888/TCP,3888/TCP            16m    strimzi.io/cluster=my-cluster,strimzi.io/kind=Kafka,strimzi.io/name=my-cluster-zookeeper
+publisher                     LoadBalancer   172.20.130.103   a2f8501636423484d86371b7131454d4-162896705.us-east-1.elb.amazonaws.com    80:32681/TCP                          4m8s   app=publisher
+
+Admin:~ $ kubectl get pods -n kafka
+NAME                                         READY   STATUS    RESTARTS   AGE
+consumer-8579d798c7-pqh59                    1/1     Running   0          55s
+kafdrop-57c9979756-zvzzc                     1/1     Running   0          3m39s
+my-cluster-entity-operator-cd9cb8986-sz6gq   3/3     Running   0          14m
+my-cluster-kafka-0                           1/1     Running   0          15m
+my-cluster-zookeeper-0                       1/1     Running   0          16m
+publisher-544b7f959d-5z8jl                   1/1     Running   0          55s
+strimzi-cluster-operator-6977966d6d-zk4pg    1/1     Running   0          17m
+
 ```
 #### 13) Check Application
+```bash
+Running in your browser: http://a9c8beb6b32474513a59443156247922-457613855.us-east-1.elb.amazonaws.com/
+```
 ![alt text](images/service.png)
 
 
