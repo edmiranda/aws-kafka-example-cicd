@@ -131,8 +131,6 @@ NOTE: please delete the ECR Imagen Manually (this feature is coming soon)
     --name "eks_cluster" 
 4) aws ssm delete-parameter \
     --name "image_tag" 
-4) aws ssm delete-parameter \
-    --name "image_tag" 
 5) aws codecommit delete-repository --repository-name Funcionario
 6) aws codecommit delete-repository --repository-name IaC
 7) aws s3 rb s3://terraform-iac-state-v1 --force  
