@@ -9,7 +9,7 @@ You belong to a team whose main goal is to deploy a publicly accessible web appl
 ![alt text](images/container-insights.jpeg)
 
 ## Requirements **IMPORTANT!!**
-- Before to start, We need review some requirements for the project can run without issues, based on the above please check the following list:
+- Before start, We need review some requirements for the project can run without issues, based on the above please check the following list:
 
   - Identify AWS Account ID
   - Identify ARN Admin Role that we will use to run our scripts in Terraform
