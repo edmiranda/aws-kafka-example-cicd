@@ -61,12 +61,12 @@ aws ssm put-parameter \
 
 aws ssm put-parameter \
     --name "eks_cluster" \
-    --value "funcionario-eks" \ #in our cause we use funcionario-eks
+    --value "funcionario-eks" \ 
     --type String 
 
 aws ssm put-parameter \
     --name "image_tag" \
-    --value "latest" \ #This image we will use to build our docker image in ECR for funcionario
+    --value "latest" \ 
     --type String 
 ```
 #### 4) Configure backend.tf, locals.tf and terraform.tfvars for specify own configuration
