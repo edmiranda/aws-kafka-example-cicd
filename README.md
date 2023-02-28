@@ -75,6 +75,13 @@ aws ssm put-parameter --name "image_tag" --value "latest" --type String
 8) terraform apply -target=module.eks_node_role
 9) terraform apply -target=module.eks_vpc_endpoints
 10) terraform apply -target=module.eks_cluster
+
+Estimated time of module.eks_cluster 16m
+module.eks_cluster.module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni[0].aws_eks_addon.vpc_cni: Still creating... [15m31s elapsed]
+module.eks_cluster.module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni[0].aws_eks_addon.vpc_cni: Still creating... [15m41s elapsed]
+module.eks_cluster.module.eks_blueprints_kubernetes_addons.module.aws_vpc_cni[0].aws_eks_addon.vpc_cni: Creation complete after 15m49s [id=funcionario-eks:vpc-cni]
+Apply complete! Resources: 51 added, 0 changed, 0 destroyed.
+
 11) terraform apply -target=module.codepipeline
 12) terraform apply -target=module.consumer
 13) terraform apply -target=module.publisher
