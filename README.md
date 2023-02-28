@@ -125,15 +125,15 @@ kubectl -n kafka run kafka-consumer -ti --image=quay.io/strimzi/kafka:0.33.2-kaf
 5) git push origin master
 ```
 
-#### 7) Check Codepipeline 
+#### 6) Check Codepipeline 
 ![alt text](images/application.png)
 ![alt text](images/service.png)
 
-#### 6) On EKS Cluster run the following commands to access the services:
+#### 7) On EKS Cluster run the following commands to access the services:
 ```terraform
 kubectl get services -o wide -n kafka
 ```
-#### 7) Check Application
+#### 8) Check Application
 ![alt text](images/service.png)
 
 
