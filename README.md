@@ -179,7 +179,7 @@ Running in your browser: http://a9c8beb6b32474513a59443156247922-457613855.us-ea
 
 # Clean Up
 ```terraform
-NOTE: please delete the ECR Imagen Manually (this feature is coming soon)
+NOTE: please delete the ECR Image Manually (this feature is coming soon)
 
 1) terraform destroy
 2) aws ssm delete-parameter --name "account_id" 
