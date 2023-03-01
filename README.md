@@ -8,7 +8,7 @@ You belong to a team whose main goal is to deploy a publicly accessible web appl
 ## Observability Architecture Diagram
 ![alt text](images/container-insights.jpeg)
 
-#### Explication Observability
+#### Observability Explication
 
 Regarding observability is very important to consider different factors when you're working with streaming architecture. First to determine if our architecture is healthy we need to define what metrics and information we will monitoring and what are the most important pillars, the following pillars are very important to consider:
 
