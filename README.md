@@ -8,6 +8,16 @@ You belong to a team whose main goal is to deploy a publicly accessible web appl
 ## Observability Architecture Diagram
 ![alt text](images/container-insights.jpeg)
 
+#### Explication Observability
+
+Regarding observability is very important to consider different factors when you're working with streaming architecture. First to determine if our architecture is healthy we need to define what metrics and information we will monitoring and what are the most important pillars, the following pillars are very important to consider:
+
+- Latency: determinate if the requests are taking more time that we estimated
+- Traffic: queries that we receive by second
+- Errors: if we have errors in the consume of the message or publish the message
+- Saturation: related to performance resources like CPU, Memory, Disk Space and more.
+
+
 ## Requirements **IMPORTANT!!**
 - Before start, We need review some requirements for the project can run without issues, based on the above please check the following list:
 
