@@ -1,4 +1,4 @@
-# Challenge Funcionario
+# Challenge
 ## Description
 You belong to a team whose main goal is to deploy a publicly accessible web application known as Funcionario to an AWS EKS cluster.
 
